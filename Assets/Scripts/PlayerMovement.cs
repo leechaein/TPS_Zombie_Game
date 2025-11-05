@@ -4,6 +4,7 @@ public class PlayerMovement : MonoBehaviour
 {
     private CharacterController characterController;
     private PlayerInput playerInput;
+    private PlayerShooter playerShooter;
     private Animator animator;
     
     private Camera followCam;
@@ -26,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         playerInput = GetComponent<PlayerInput>();
+        playerShooter = GetComponent<PlayerShooter>();
         animator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
         followCam = Camera.main;
@@ -34,7 +36,8 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         // 플레이어가 속도를 내거나 총을 쏘는 보는 방향을 일치시킴
-        if (currentSpeed > 0.2f || playerInput.fire) Rotate();
+        if (currentSpeed > 0.2f || playerInput.fire || playerShooter.aimState == PlayerShooter.AimState.HipFire)
+            Rotate();
 
         Move(playerInput.moveInput);
         
